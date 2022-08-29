@@ -19,9 +19,10 @@ flesch("path/to/file.txt");
 flesch_kincaid("path/to/file.txt");
 coleman_liau("path/to/file.txt");
 ari("path/to/file.txt");
+```
+And for strings:
 
-// And for strings:
-
+```
 lix_string("your string");
 rix_string("your string");
 flesch("your string");
