@@ -2,7 +2,7 @@
 A package to assess the complexity of texts using a variety of readability formulas, written in Rust. The package includes implementations of the Lix, Rix, Flesch, Flesch-Kincaid, Coleman-Liau, and Automated Readability Index methods.
 
 ## How to Use
-The package includes functions for the Lix, Rix, Flesch, Flesch-Kincaid, Coleman-Liau, and Automated Readability Index methods. Call each method on a file or string like so:
+The package includes functions for the Lix, Rix, Flesch, Flesch-Kincaid, Coleman-Liau, and Automated Readability Index methods. Each function prints and returns its corresponding readability index. Call each method on a file or string like so:
 
 ```
 use rust_readability::lix;
