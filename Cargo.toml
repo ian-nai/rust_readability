@@ -1,0 +1,21 @@
+[package]
+name = "rust_readability"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ian Goodale"]
+description = "A package to assess the complexity of texts using a variety of readability formulas."
+readme = "README.md"
+repository = "https://github.com/ian-nai/rust_readability"
+license = "GPL-3.0-or-later"
+keywords = ["NLP", "readability"]
+categories = ["text-processing"]
+default-features = false
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+csv = "1.1"
+wordsworth = "0.1.*"
+punkt = "1.0.5"
+unicode-segmentation = "1.9.0"
+regex = "1"
