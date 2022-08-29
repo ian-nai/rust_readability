@@ -9,7 +9,6 @@ repository = "https://github.com/ian-nai/rust_readability"
 license = "GPL-3.0-or-later"
 keywords = ["NLP", "readability"]
 categories = ["text-processing"]
-default-features = false
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
