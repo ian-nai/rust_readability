@@ -1,6 +1,6 @@
 [package]
 name = "rust_readability"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Ian Goodale"]
 description = "A package to assess the complexity of texts using a variety of readability formulas."
