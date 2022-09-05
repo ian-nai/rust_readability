@@ -2,37 +2,34 @@ use wordsworth::syllable_counter;
 
 use punkt::params::Standard;
 use punkt::SentenceTokenizer;
-use punkt::TrainingData;
 use punkt::Trainer;
+use punkt::TrainingData;
 
 use unicode_segmentation::UnicodeSegmentation;
 
 use regex::Regex;
 
-use std::io::{BufRead, BufReader};
-use std::fs::File;
 use std::fs;
-
 
 pub fn word_list_from_string(string_to_analyze: &str) -> Vec<String> {
     let mut word_list: Vec<String> = Vec::new();
-    for split_word in string_to_analyze.split(&[' '][..]) {
-        let re = Regex::new(r"[^a-zA-Z0-9 -]").unwrap();
-        let result = re.replace_all(split_word, "");
-        word_list.push(result.to_string());
+    let words = string_to_analyze.unicode_words();
+    for w in words {
+        word_list.push(w.to_string());
     }
+
     word_list
 }
 
 pub fn word_list_from_file(filename: &str) -> Vec<String> {
-    let reader = BufReader::new(File::open(filename).expect("Cannot open file"));
     let mut word_list: Vec<String> = Vec::new();
-    for line in reader.lines() {
-        for split_word in line.unwrap().split_whitespace() {
-            let re = Regex::new(r"[^a-zA-Z0-9 -]").unwrap();
-            let result = re.replace_all(split_word, "");
-            word_list.push(result.to_string());
-        }
+    let string_from_file = fs::read_to_string(filename).expect("Unable to read file");
+    let words = string_from_file.unicode_words();
+    for w in words {
+        word_list.push(w.to_string());
+    }
+    for s in &word_list {
+        println!("{}", s);
     }
     word_list
 }
@@ -61,17 +58,18 @@ pub fn percent_long_words(word_list: Vec<String>) -> f64 {
     percent_longwords
 }
 
-
 pub fn character_count(string_to_analyze: &str) -> f64 {
-    let re = Regex::new(r"[^a-zA-Z0-9 -]").unwrap();
+    let re = Regex::new(r"[^\w]").unwrap();
     let result = re.replace_all(string_to_analyze, "");
+
     let character_count: f64;
     character_count = result.graphemes(true).count() as f64;
+
     character_count
 }
 
 pub fn syllable_count_list(word_list: Vec<String>) -> Vec<i32> {
-    let mut sylcount_list: Vec<i32>  = Vec::new();
+    let mut sylcount_list: Vec<i32> = Vec::new();
     for word in &word_list {
         sylcount_list.push(syllable_counter(&word).try_into().unwrap());
     }
@@ -118,12 +116,12 @@ pub fn wordcount_list(word_list: Vec<String>) -> i32 {
     wordcount
 }
 
-pub fn split_into_sentences(doc: &str) -> Vec<String>{
+pub fn split_into_sentences(doc: &str) -> Vec<String> {
     let trainer: Trainer<Standard> = Trainer::new();
     let mut data = TrainingData::new();
 
     trainer.train(doc, &mut data);
-    let mut sent_list: Vec<String>  = Vec::new();
+    let mut sent_list: Vec<String> = Vec::new();
 
     for s in SentenceTokenizer::<Standard>::new(doc, &data) {
         sent_list.push(s.to_string());
@@ -136,15 +134,15 @@ pub fn sent_word_counts(doc: &str) -> Vec<usize> {
     let mut data = TrainingData::new();
 
     trainer.train(doc, &mut data);
-    let mut sent_word_list: Vec<String>  = Vec::new();
+    let mut sent_word_list: Vec<String> = Vec::new();
 
-    let mut sent_wordcount_list: Vec<usize>  = Vec::new();
+    let mut sent_wordcount_list: Vec<usize> = Vec::new();
 
     for s in SentenceTokenizer::<Standard>::new(doc, &data) {
         sent_word_list.push(s.to_string());
     }
     for s in sent_word_list {
-        let mut temp_vec: Vec<String>  = Vec::new();
+        let mut temp_vec: Vec<String> = Vec::new();
         for word in s.split_whitespace() {
             temp_vec.push(word.to_string());
         }
@@ -163,7 +161,7 @@ pub fn sent_avg_wordcount(sent_wordcount_list: Vec<usize>) -> f64 {
     avg_word_length
 }
 
-pub fn lix(file_to_analyze: &str) -> f64{
+pub fn lix(file_to_analyze: &str) -> f64 {
     //file to string
     let string_to_analyze = file_to_string(file_to_analyze);
     //total_words
@@ -173,7 +171,7 @@ pub fn lix(file_to_analyze: &str) -> f64{
     //avg_num_words/sentence
     let sent_wordcount_list = sent_word_counts(&string_to_analyze);
     let avg_words_per_sentence = sent_avg_wordcount(sent_wordcount_list);
-    let lix_index= num_long_words + avg_words_per_sentence;
+    let lix_index = num_long_words + avg_words_per_sentence;
     println!("{}", lix_index);
     lix_index
 }
@@ -230,7 +228,8 @@ pub fn coleman_liau(file_to_analyze: &str) -> f64 {
     // sents
     let sent_count = split_into_sentences(&string_to_analyze).len() as f64;
 
-    let coleman_liau_index = 0.0588 * ((chars / all_words) * 100.0) - 0.296 * ((sent_count / chars) * 100.0) - 15.8;
+    let coleman_liau_index =
+        0.0588 * ((chars / all_words) * 100.0) - 0.296 * ((sent_count / chars) * 100.0) - 15.8;
     println!("{}", coleman_liau_index);
     coleman_liau_index
 }
@@ -245,12 +244,13 @@ pub fn ari(file_to_analyze: &str) -> f64 {
     // sents
     let sent_count = split_into_sentences(&string_to_analyze).len() as f64;
 
-    let automated_readability_index = (4.71 * (chars / all_words)) + (0.5 * (all_words / sent_count)) - 21.43;
+    let automated_readability_index =
+        (4.71 * (chars / all_words)) + (0.5 * (all_words / sent_count)) - 21.43;
     println!("{}", automated_readability_index);
     automated_readability_index
 }
 
-pub fn lix_string(string_to_analyze: &str) -> f64{
+pub fn lix_string(string_to_analyze: &str) -> f64 {
     //total_words
     let all_words = word_list_from_string(string_to_analyze);
     //num long words
@@ -311,7 +311,8 @@ pub fn coleman_liau_string(string_to_analyze: &str) -> f64 {
     // sents
     let sent_count = split_into_sentences(string_to_analyze).len() as f64;
 
-    let coleman_liau_index = 0.0588 * ((chars / all_words) * 100.0) - 0.296 * ((sent_count / chars) * 100.0) - 15.8;
+    let coleman_liau_index =
+        0.0588 * ((chars / all_words) * 100.0) - 0.296 * ((sent_count / chars) * 100.0) - 15.8;
     println!("{}", coleman_liau_index);
     coleman_liau_index
 }
@@ -324,7 +325,8 @@ pub fn automated_readability_index_string(string_to_analyze: &str) -> f64 {
     // sents
     let sent_count = split_into_sentences(string_to_analyze).len() as f64;
 
-    let automated_readability_index = (4.71 * (chars / all_words)) + (0.5 * (all_words / sent_count)) - 21.43;
+    let automated_readability_index =
+        (4.71 * (chars / all_words)) + (0.5 * (all_words / sent_count)) - 21.43;
     println!("{}", automated_readability_index);
     automated_readability_index
 }
