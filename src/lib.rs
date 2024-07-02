@@ -230,6 +230,26 @@ pub fn flesch_kincaid(file_to_analyze: &str) -> f64 {
     flesch_kincaid_index
 }
 
+pub fn linsear_write(file_to_analyze: &str) -> f64{
+    //file to string
+    let string_to_analyze = file_to_string(file_to_analyze);
+    //compiling variables for linsear_write 
+    let all_words = word_list_from_string(string_to_analyze);
+    let all_syls = syllable_count_list(all_words);
+    let summed_score = linsear_scoring(all_syls);
+    let sent_count = split_into_sentences(string_to_analyze).len() as f64;
+    // compute the score
+    let provisional_result = summed_score / sent_count;
+    // provisional adjustment 
+    let mut linsear_write_score = 0;
+    if provisional_result < 20 {
+        linsear_write_score = (provisional_result / 2) - 1
+    } else {
+        linsear_write_score = provisional_result / 2
+    }
+    linsear_write_score
+}
+
 pub fn coleman_liau(file_to_analyze: &str) -> f64 {
     //file to string
     let string_to_analyze = file_to_string(file_to_analyze);
