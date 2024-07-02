@@ -17,6 +17,7 @@ lix("path/to/file.txt");
 rix("path/to/file.txt");
 flesch("path/to/file.txt");
 flesch_kincaid("path/to/file.txt");
+linsear_write("path/to/file.txt");
 coleman_liau("path/to/file.txt");
 ari("path/to/file.txt");
 ```
@@ -27,6 +28,7 @@ lix_string("your string");
 rix_string("your string");
 flesch("your string");
 flesch_kincaid("your string");
+linsear_write_string("your string");
 coleman_liau("your string");
 ari("your string");
 ```
