@@ -62,7 +62,7 @@ ari("your string");
 ## Installation
 There are two ways to install rust_readability on your system: through Cargo or via source code.
 ### Cargo
-rust_readability can be installed using cargo, a tool for installing Rust libraries. To do it, run the next command:
+rust_readability can be installed using cargo, a tool for installing Rust libraries. To install using cargo, run the following command:
 ```
 cargo add rust_readability
 ```
