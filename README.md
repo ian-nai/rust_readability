@@ -1,8 +1,8 @@
 # rust_readability
-This is a package to assess the complexity of texts using a variety of well-established readability formulas written in Rust. The package includes implementations of the Lix, Rix, Flesch, Flesch-Kincaid, Coleman-Liau, and Automated Readability Index methods. The Linsear Write method commented in the lib.rs file is currently under development.
+This is a package to assess the complexity of texts using a variety of well-established readability formulas written in Rust. The package includes implementations of the Lix, Rix, Flesch, Flesch-Kincaid, Linsear Write, Coleman-Liau, and Automated Readability Index methods.
 
 ## Usage
-The package includes functions for the Lix, Rix, Flesch, Flesch-Kincaid, Coleman-Liau, and Automated Readability Index methods. When presented with either a file or a string, each function prints and returns a corresponding readability index. Call each function like so:
+The package includes functions for the Lix, Rix, Flesch, Flesch-Kincaid, Linsear Write, Coleman-Liau, and Automated Readability Index methods. When presented with either a file or a string, each function prints and returns a corresponding readability index. Call each function like so:
 
 ```
 use rust_readability::lix;
@@ -75,8 +75,8 @@ flesch_kincaid("path/to/file.txt");
 flesch_kincaid("your string");
 ```
 
-### Linsear Write (under development)
-[Linsear write](https://en.wikipedia.org/wiki/Linsear_Write) is a reading metric developed specifically for technical/scientific texts. The score evaluates syllable count and sentence length to present a grade-level metric. 
+### Linsear Write 
+[Linsear write](https://en.wikipedia.org/wiki/Linsear_Write) is a reading metric developed specifically for technical/scientific texts. The score evaluates syllable count and sentence length in a 100-word sample to present a grade-level metric. 
 ```
 linsear_write("path/to/file.txt");
 linsear_write_string("your string");
@@ -87,6 +87,7 @@ The [Coleman-Liau index](https://en.wikipedia.org/wiki/Coleman%E2%80%93Liau_inde
 coleman_liau("path/to/file.txt");
 coleman_liau("your string");
 ```
+
 ### Ari 
 The [automated readability index](https://en.wikipedia.org/wiki/Automated_readability_index) (ARI) similarly relies on character counts and sentence length to produce a score which uniquely maps to grade-level representation.
 ```
