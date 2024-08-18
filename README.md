@@ -1,5 +1,5 @@
 # rust_readability
-This is a package to assess the complexity of texts using a variety of well-established readability formulas written in Rust. The package includes implementations of the Lix, Rix, Flesch, Flesch-Kincaid, Linsear Write, Coleman-Liau, and Automated Readability Index methods.
+A package to assess the complexity of texts using a variety of well-established readability formulas written in Rust. The package includes implementations of the Lix, Rix, Flesch, Flesch-Kincaid, Linsear Write, Coleman-Liau, and Automated Readability Index methods.
 
 ## Usage
 The package includes functions for the Lix, Rix, Flesch, Flesch-Kincaid, Linsear Write, Coleman-Liau, and Automated Readability Index methods. When presented with either a file or a string, each function prints and returns a corresponding readability index. Call each function like so:
